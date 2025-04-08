@@ -1,0 +1,12 @@
+{% for event in events %}
+  <div>
+    <h3>{{ event.title }} ({{ event.get_event_type_display }})</h3>
+    <p>{{ event.date }} - {{ event.description }}</p>
+    <p>Volunteers: {{ event.volunteers.count }}</p>
+    {% if user.is_authenticated and event.event_type == 'shoot' %}
+      <form action="{% url 'volunteer' event.id %}" method="post">{% csrf_token %}
+        <button type="submit">Volunteer</button>
+      </form>
+    {% endif %}
+  </div>
+{% endfor %}
