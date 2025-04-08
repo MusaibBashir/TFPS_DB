@@ -9,3 +9,9 @@ def calendar_view(request):
     else:
         events = Event.objects.filter(visibility__in=['all', request.user.groups.first().name])
     return render(request, 'calendar.html', {'events': events})
+
+@login_required
+def volunteer(request, event_id):
+    event = Event.objects.get(id=event_id)
+    Volunteer.objects.get_or_create(user=request.user, event=event)
+    return redirect('calendar')
